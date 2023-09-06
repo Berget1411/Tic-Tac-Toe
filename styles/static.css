@@ -33,4 +33,10 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 6px;
+}
+
+footer img {
+  margin-top: 6px;
+  width: 20px;
 }
