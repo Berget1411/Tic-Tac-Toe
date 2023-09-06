@@ -17,7 +17,7 @@
   </head>
   <body>
     <main>
-      <section class="start-screen off">
+      <section class="start-screen">
         <h1>Tic-Tac-Toe</h1>
         <h2>Play:</h2>
         <div class="game-mode">
@@ -32,9 +32,9 @@
         </div>
       </section>
 
-      <section class="game-screen">
+      <section class="game-screen off">
         <h2 class="display">Player X's turn</h2>
-        <section class="gameboard">
+        <section class="game-board">
           <div class="square"></div>
           <div class="square"></div>
           <div class="square"></div>
@@ -45,7 +45,10 @@
           <div class="square"></div>
           <div class="square"></div>
         </section>
-        <button>Return</button>
+        <div class="return-replay">
+          <button class="return">Return</button
+          ><button class="replay">Replay</button>
+        </div>
       </section>
     </main>
     <footer>

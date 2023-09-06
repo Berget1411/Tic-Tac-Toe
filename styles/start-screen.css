@@ -33,12 +33,12 @@
 }
 
 .vs-player {
-  color: var(--main-text-color);
+  color: var(--secondary-text-color);
   transition: background-color 0.2s, color 0.2s;
 }
 
 .vs-player:hover {
-  background-color: var(--main-text-color);
+  background-color: var(--secondary-text-color);
   color: white;
 }
 
@@ -47,12 +47,12 @@
 }
 
 .vs-computer {
-  color: var(--secondary-text-color);
+  color: var(--main-text-color);
   transition: background-color 0.2s, color 0.2s;
 }
 
 .vs-computer:hover {
-  background-color: var(--secondary-text-color);
+  background-color: var(--main-text-color);
   color: white;
 }
 .vs-computer img {
