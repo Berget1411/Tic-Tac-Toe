@@ -1,0 +1,93 @@
+:root {
+  --main-background-color: #f0f9ff;
+  --main-text-color: #38bdf8;
+  --secondary-background-color: #38bdf8;
+  --secondary-text-color: #fb7185;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "ADLaM Display", sans-serif;
+}
+
+body {
+  background-color: var(--main-background-color);
+}
+
+main {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-screen {
+  display: grid;
+  justify-items: center;
+}
+
+.start-screen h1 {
+  font-size: 5em;
+  color: var(--main-text-color);
+}
+
+.start-screen h2 {
+  font-size: 3em;
+  color: var(--secondary-text-color);
+}
+
+.game-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.vs-player,
+.vs-computer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.4em;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--main-background-color);
+}
+
+.vs-player {
+  color: var(--main-text-color);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.vs-player:hover {
+  background-color: var(--main-text-color);
+  color: white;
+}
+
+.vs-player img {
+  width: 30px;
+}
+
+.vs-computer {
+  color: var(--secondary-text-color);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.vs-computer:hover {
+  background-color: var(--secondary-text-color);
+  color: white;
+}
+.vs-computer img {
+  width: 30px;
+}
+
+.game-screen {
+  display: none;
+}
+
+footer {
+  height: 20vh;
+}
