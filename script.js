@@ -11,6 +11,15 @@ const GameBrain = (() => {
     p1 = Player("X", true);
     p2 = Player("O", false);
   };
+
+  const whichPlayersTurn = (p1, p2) => {
+    if (p1.getPlayStatus() === true) {
+      return p1.getSymbol();
+    } else {
+      return p2.getSymbol();
+    }
+  };
+
   return { startGame };
 })();
 
@@ -41,7 +50,7 @@ const displayController = (() => {
 
 const Player = (symbol, playStatus) => {
   const getSymbol = () => symbol;
-  const isPlayerTurn = playStatus;
+  const getPlayStatus = () => playStatus;
 
   return { getSymbol, isPlayerTurn };
 };
