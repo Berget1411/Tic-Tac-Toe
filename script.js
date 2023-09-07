@@ -13,10 +13,6 @@ const GameBoard = (() => {
   return { gameBoard };
 })();
 
-// const player = () => {
-//     pass;
-// }
-
 const displayController = (() => {
   const renderGameBoard = (gameBoard) => {
     for (const row of gameBoard) {
@@ -30,6 +26,13 @@ const displayController = (() => {
   };
   return { renderGameBoard };
 })();
+
+const Player = (symbol, playFirst) => {
+  const getSymbol = () => symbol;
+  const isPlayerTurn = playFirst;
+
+  return { getSymbol, isPlayerTurn };
+};
 
 const startGame = () => {
   changeScreen();
