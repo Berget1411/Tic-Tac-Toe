@@ -4,22 +4,34 @@ const gameBoardDisplay = document.querySelector(".game-board");
 const startGameButtons = document.querySelectorAll(".game-mode button");
 const returnButton = document.querySelector(".return");
 
+const GameBrain = (() => {
+  const startGame = () => {
+    changeScreen();
+    displayController.renderGameBoard(GameBoard.gameBoard);
+    p1 = Player("X", true);
+    p2 = Player("O", false);
+  };
+  return { startGame };
+})();
+
 const GameBoard = (() => {
   const gameBoard = [
-    ["X", "O", "X"],
-    ["X", "O", "O"],
-    ["O", "X", "X"],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
   ];
   return { gameBoard };
 })();
 
 const displayController = (() => {
+  const clickHandlerBoard = (e) => {};
   const renderGameBoard = (gameBoard) => {
     for (const row of gameBoard) {
       for (const col of row) {
         square = document.createElement("div");
         square.classList.add("square");
         square.textContent = col;
+        square.addEventListener("click", clickHandlerBoard);
         gameBoardDisplay.append(square);
       }
     }
@@ -27,20 +39,15 @@ const displayController = (() => {
   return { renderGameBoard };
 })();
 
-const Player = (symbol, playFirst) => {
+const Player = (symbol, playStatus) => {
   const getSymbol = () => symbol;
-  const isPlayerTurn = playFirst;
+  const isPlayerTurn = playStatus;
 
   return { getSymbol, isPlayerTurn };
 };
 
-const startGame = () => {
-  changeScreen();
-  displayController.renderGameBoard(GameBoard.gameBoard);
-};
-
 startGameButtons.forEach((button) =>
-  button.addEventListener("click", startGame)
+  button.addEventListener("click", GameBrain.startGame)
 );
 
 const changeScreen = () => {
