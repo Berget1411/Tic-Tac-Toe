@@ -16,3 +16,11 @@ const changeScreen = () => {
   gameScreen.classList.toggle("off");
 };
 returnButton.addEventListener("click", changeScreen);
+
+const Gameboard = (() => {
+  const gameboard = [
+    ["X", "O", "X"],
+    ["X", "O", "O"],
+    ["O", "X", "X"],
+  ];
+})();
