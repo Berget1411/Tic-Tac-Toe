@@ -17,13 +17,23 @@ const GameBoard = (() => {
 //     pass;
 // }
 
-// const displayController = (() => {
-//   pass;
-// })()
+const displayController = (() => {
+  const renderGameBoard = (gameBoard) => {
+    for (const row of gameBoard) {
+      for (const col of row) {
+        square = document.createElement("div");
+        square.classList.add("square");
+        square.textContent = col;
+        gameBoardDisplay.append(square);
+      }
+    }
+  };
+  return { renderGameBoard };
+})();
 
 const startGame = () => {
   changeScreen();
-  renderGameBoard(GameBoard.gameBoard);
+  displayController.renderGameBoard(GameBoard.gameBoard);
 };
 
 startGameButtons.forEach((button) =>
@@ -35,13 +45,3 @@ const changeScreen = () => {
   gameScreen.classList.toggle("off");
 };
 returnButton.addEventListener("click", changeScreen);
-
-const renderGameBoard = (gameBoard) => {
-  for (const row of gameBoard) {
-    for (const col of row) {
-      square = document.createElement("div");
-      square.classList.add("square");
-      gameBoardDisplay.append(square);
-    }
-  }
-};
