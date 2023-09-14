@@ -47,7 +47,31 @@ const GameBrain = (() => {
     }
   };
 
-  const checkWin = () => {};
+  const checkWin = () => {
+    for (i = 0; i < 9; i++) {
+      if (
+        GameBoard.gameBoard[i] != "" &&
+        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 1] &&
+        GameBoard.gameBoard[i + 2]
+      ) {
+        console.log(`${GameBoard.gameBoard[i]} Win`);
+      } else if (
+        GameBoard.gameBoard[i] != "" &&
+        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 3] &&
+        GameBoard.gameBoard[i + 3] == GameBoard.gameBoard[i + 6]
+      ) {
+        console.log(`${GameBoard.gameBoard[i]} Win`);
+      } else if (
+        GameBoard.gameBoard[i] != "" &&
+        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 4] &&
+        GameBoard.gameBoard[i + 4] == GameBoard.gameBoard[i + 8]
+      ) {
+        console.log(`${GameBoard.gameBoard[i]} Win`);
+      } else {
+        continue;
+      }
+    }
+  };
 
   const startGame = () => {
     changeScreen();
