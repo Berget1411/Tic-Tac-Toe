@@ -17,13 +17,14 @@ const Player = (symbol, playStatus) => {
   const getSymbol = () => symbol;
   const getPlayStatus = () => playStatus;
 
-  return { getSymbol, getPlayStatus };
+  const changePlayStatus = (newPlayStatus) => {
+    playStatus = newPlayStatus;
+  };
+
+  return { getSymbol, getPlayStatus, changePlayStatus };
 };
 
 const displayController = (() => {
-  const clickHandlerBoard = (e) => {
-    e.target.textContent = GameBrain.whichPlayersTurn();
-  };
   const renderGameBoard = (gameBoard) => {
     //reset gameBoard
     gameBoardDisplay.textContent = "";
@@ -32,7 +33,6 @@ const displayController = (() => {
         square = document.createElement("div");
         square.classList.add("square");
         square.textContent = col;
-        square.addEventListener("click", clickHandlerBoard);
         gameBoardDisplay.append(square);
       }
     }
@@ -49,18 +49,33 @@ const GameBrain = (() => {
     }
   };
 
-  return { whichPlayersTurn };
+  const startGame = () => {
+    changeScreen();
+    let p1 = Player("X", true);
+    let p2 = Player("O", false);
+    displayController.renderGameBoard(GameBoard.gameBoard);
+
+    gameBoardSquares = gameBoardDisplay.querySelectorAll("div");
+    gameBoardSquares.forEach((square) =>
+      square.addEventListener("click", (e) => {
+        e.target.textContent = whichPlayersTurn(p1, p2);
+
+        if (p1.getPlayStatus() === true) {
+          p1.changePlayStatus(false);
+          p2.changePlayStatus(true);
+        } else {
+          p1.changePlayStatus(true);
+          p2.changePlayStatus(false);
+        }
+      })
+    );
+  };
+
+  return { whichPlayersTurn, startGame };
 })();
 
-const startGame = () => {
-  changeScreen();
-  let p1 = Player("X", true);
-  let p2 = Player("O", false);
-  displayController.renderGameBoard(GameBoard.gameBoard);
-};
-
 startGameButtons.forEach((button) =>
-  button.addEventListener("click", startGame)
+  button.addEventListener("click", GameBrain.startGame)
 );
 
 const changeScreen = () => {
