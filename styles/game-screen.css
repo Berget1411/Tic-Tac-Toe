@@ -27,6 +27,7 @@
   align-items: center;
   justify-content: center;
   font-size: 3.5em;
+  cursor: pointer;
 }
 
 .return-replay {
