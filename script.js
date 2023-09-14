@@ -69,10 +69,16 @@ const GameBrain = (() => {
           e.target.style.color = "#fb7185";
           p1.changePlayStatus(false);
           p2.changePlayStatus(true);
+
+          displayInfo.textContent = `Player ${p2.getSymbol()}'s turn`;
+          displayInfo.style.color = "#38bdf8";
         } else {
           e.target.style.color = "#38bdf8";
           p1.changePlayStatus(true);
           p2.changePlayStatus(false);
+
+          displayInfo.textContent = `Player ${p1.getSymbol()}'s turn`;
+          displayInfo.style.color = "#fb7185";
         }
 
         e.target.removeEventListener("click", clickedSquare);

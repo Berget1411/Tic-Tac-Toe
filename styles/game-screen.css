@@ -6,6 +6,7 @@
 
 .game-screen h2 {
   font-size: 3.5em;
+  color: var(--secondary-text-color);
 }
 
 .game-board {
