@@ -51,13 +51,17 @@ const GameBrain = (() => {
 
   const startGame = () => {
     changeScreen();
+    // generate players
     let p1 = Player("X", true);
     let p2 = Player("O", false);
+
+    //render gameboard
     displayController.renderGameBoard(GameBoard.gameBoard);
 
+    //make squares in game-board react to user input
     gameBoardSquares = gameBoardDisplay.querySelectorAll("div");
     gameBoardSquares.forEach((square) =>
-      square.addEventListener("click", (e) => {
+      square.addEventListener("click", function clickedSquare(e) {
         e.target.textContent = whichPlayersTurn(p1, p2);
 
         if (p1.getPlayStatus() === true) {
@@ -67,6 +71,8 @@ const GameBrain = (() => {
           p1.changePlayStatus(true);
           p2.changePlayStatus(false);
         }
+
+        e.target.removeEventListener("click", clickedSquare);
       })
     );
   };
