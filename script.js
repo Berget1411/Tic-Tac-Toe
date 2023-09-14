@@ -1,7 +1,7 @@
 const startScreen = document.querySelector(".start-screen");
 const gameScreen = document.querySelector(".game-screen");
 const gameBoardDisplay = document.querySelector(".game-board");
-const startGameButtons = document.querySelectorAll(".game-mode button");
+const vsPlayerButton = document.querySelectorAll(".vs-player");
 const returnButton = document.querySelector(".return");
 const displayInfo = document.querySelector(".game-screen h2");
 const replayButton = document.querySelector(".replay");
@@ -191,7 +191,7 @@ const changeScreen = () => {
   GameBrain.startGame();
 };
 
-startGameButtons.forEach((button) =>
+vsPlayerButton.forEach((button) =>
   button.addEventListener("click", changeScreen)
 );
 

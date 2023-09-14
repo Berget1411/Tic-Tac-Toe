@@ -55,6 +55,11 @@
   background-color: var(--main-text-color);
   color: white;
 }
+
+.vs-computer:active {
+  background-color: #9ca3af;
+}
+
 .vs-computer img {
   width: 30px;
 }
