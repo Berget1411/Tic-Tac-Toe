@@ -4,25 +4,6 @@ const gameBoardDisplay = document.querySelector(".game-board");
 const startGameButtons = document.querySelectorAll(".game-mode button");
 const returnButton = document.querySelector(".return");
 
-const GameBrain = (() => {
-  const startGame = () => {
-    changeScreen();
-    displayController.renderGameBoard(GameBoard.gameBoard);
-    p1 = Player("X", true);
-    p2 = Player("O", false);
-  };
-
-  const whichPlayersTurn = (p1, p2) => {
-    if (p1.getPlayStatus() === true) {
-      return p1.getSymbol();
-    } else {
-      return p2.getSymbol();
-    }
-  };
-
-  return { startGame };
-})();
-
 const GameBoard = (() => {
   const gameBoard = [
     ["", "", ""],
@@ -32,9 +13,20 @@ const GameBoard = (() => {
   return { gameBoard };
 })();
 
+const Player = (symbol, playStatus) => {
+  const getSymbol = () => symbol;
+  const getPlayStatus = () => playStatus;
+
+  return { getSymbol, getPlayStatus };
+};
+
 const displayController = (() => {
-  const clickHandlerBoard = (e) => {};
+  const clickHandlerBoard = (e) => {
+    e.target.textContent = GameBrain.whichPlayersTurn();
+  };
   const renderGameBoard = (gameBoard) => {
+    //reset gameBoard
+    gameBoardDisplay.textContent = "";
     for (const row of gameBoard) {
       for (const col of row) {
         square = document.createElement("div");
@@ -48,15 +40,27 @@ const displayController = (() => {
   return { renderGameBoard };
 })();
 
-const Player = (symbol, playStatus) => {
-  const getSymbol = () => symbol;
-  const getPlayStatus = () => playStatus;
+const GameBrain = (() => {
+  const whichPlayersTurn = (p1, p2) => {
+    if (p1.getPlayStatus() === true) {
+      return p1.getSymbol();
+    } else {
+      return p2.getSymbol();
+    }
+  };
 
-  return { getSymbol, isPlayerTurn };
+  return { whichPlayersTurn };
+})();
+
+const startGame = () => {
+  changeScreen();
+  let p1 = Player("X", true);
+  let p2 = Player("O", false);
+  displayController.renderGameBoard(GameBoard.gameBoard);
 };
 
 startGameButtons.forEach((button) =>
-  button.addEventListener("click", GameBrain.startGame)
+  button.addEventListener("click", startGame)
 );
 
 const changeScreen = () => {
