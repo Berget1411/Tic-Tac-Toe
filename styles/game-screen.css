@@ -61,6 +61,7 @@
 .replay {
   color: var(--main-text-color);
   transition: background-color 0.2s, color 0.2s;
+  opacity: 0;
 }
 
 .replay:hover {

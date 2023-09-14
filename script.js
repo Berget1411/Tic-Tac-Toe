@@ -4,6 +4,7 @@ const gameBoardDisplay = document.querySelector(".game-board");
 const startGameButtons = document.querySelectorAll(".game-mode button");
 const returnButton = document.querySelector(".return");
 const displayInfo = document.querySelector(".game-screen h2");
+const replayButton = document.querySelector(".replay");
 
 const GameBoard = (() => {
   const gameBoard = ["", "", "", "", "", "", "", "", ""];
@@ -48,29 +49,111 @@ const GameBrain = (() => {
   };
 
   const checkWin = () => {
+    const displayWinner = (player) => {
+      displayInfo.textContent = `Player ${player} won!`;
+      replayButton.style.opacity = "1";
+
+      if ((player = "X")) {
+        displayInfo.style.color = "#fb7185";
+      } else {
+        displayInfo.style.color = "#38bdf8";
+      }
+      gameBoardDisplay
+        .querySelectorAll("div")
+        .forEach((square) =>
+          square.removeEventListener("click", clickedSquare)
+        );
+    };
+
     for (i = 0; i < 9; i++) {
       if (
-        GameBoard.gameBoard[i] != "" &&
-        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 1] &&
-        GameBoard.gameBoard[i + 2]
+        //win horizontally
+        GameBoard.gameBoard[0] != "" &&
+        GameBoard.gameBoard[0] == GameBoard.gameBoard[1] &&
+        GameBoard.gameBoard[1] == GameBoard.gameBoard[2]
       ) {
-        console.log(`${GameBoard.gameBoard[i]} Win`);
+        displayWinner(GameBoard.gameBoard[0]);
       } else if (
-        GameBoard.gameBoard[i] != "" &&
-        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 3] &&
-        GameBoard.gameBoard[i + 3] == GameBoard.gameBoard[i + 6]
+        //win horizontally
+        GameBoard.gameBoard[3] != "" &&
+        GameBoard.gameBoard[3] == GameBoard.gameBoard[4] &&
+        GameBoard.gameBoard[4] == GameBoard.gameBoard[5]
       ) {
-        console.log(`${GameBoard.gameBoard[i]} Win`);
+        displayWinner(GameBoard.gameBoard[3]);
       } else if (
-        GameBoard.gameBoard[i] != "" &&
-        GameBoard.gameBoard[i] == GameBoard.gameBoard[i + 4] &&
-        GameBoard.gameBoard[i + 4] == GameBoard.gameBoard[i + 8]
+        //win horizontally
+        GameBoard.gameBoard[6] != "" &&
+        GameBoard.gameBoard[6] == GameBoard.gameBoard[7] &&
+        GameBoard.gameBoard[7] == GameBoard.gameBoard[8]
       ) {
-        console.log(`${GameBoard.gameBoard[i]} Win`);
+        displayWinner(GameBoard.gameBoard[6]);
+      } else if (
+        //Win vertically
+        GameBoard.gameBoard[0] != "" &&
+        GameBoard.gameBoard[0] == GameBoard.gameBoard[3] &&
+        GameBoard.gameBoard[3] == GameBoard.gameBoard[6]
+      ) {
+        displayWinner(GameBoard.gameBoard[0]);
+      } else if (
+        //Win vertically
+        GameBoard.gameBoard[1] != "" &&
+        GameBoard.gameBoard[1] == GameBoard.gameBoard[4] &&
+        GameBoard.gameBoard[4] == GameBoard.gameBoard[7]
+      ) {
+        displayWinner(GameBoard.gameBoard[1]);
+      } else if (
+        //Win vertically
+        GameBoard.gameBoard[2] != "" &&
+        GameBoard.gameBoard[2] == GameBoard.gameBoard[5] &&
+        GameBoard.gameBoard[5] == GameBoard.gameBoard[8]
+      ) {
+        displayWinner(GameBoard.gameBoard[2]);
+      } else if (
+        //Win diagonally
+        GameBoard.gameBoard[0] != "" &&
+        GameBoard.gameBoard[0] == GameBoard.gameBoard[4] &&
+        GameBoard.gameBoard[4] == GameBoard.gameBoard[8]
+      ) {
+        displayWinner(GameBoard.gameBoard[0]);
+      } else if (
+        //Win diagnoally
+        GameBoard.gameBoard[2] != "" &&
+        GameBoard.gameBoard[2] == GameBoard.gameBoard[4] &&
+        GameBoard.gameBoard[4] == GameBoard.gameBoard[6]
+      ) {
+        displayWinner(GameBoard.gameBoard[2]);
+      } else if (GameBoard.gameBoard.includes("") == false) {
+        displayInfo.textContent = `Draw!`;
+        displayInfo.style.color = "black";
       } else {
         continue;
       }
     }
+  };
+
+  const clickedSquare = (target, p1, p2) => {
+    currentSymbol = whichPlayersTurn(p1, p2);
+    target.textContent = currentSymbol;
+
+    if (p1.getPlayStatus() === true) {
+      target.style.color = "#fb7185";
+      p1.changePlayStatus(false);
+      p2.changePlayStatus(true);
+
+      displayInfo.textContent = `Player ${p2.getSymbol()}'s turn`;
+      displayInfo.style.color = "#38bdf8";
+    } else {
+      target.style.color = "#38bdf8";
+      p1.changePlayStatus(true);
+      p2.changePlayStatus(false);
+
+      displayInfo.textContent = `Player ${p1.getSymbol()}'s turn`;
+      displayInfo.style.color = "#fb7185";
+    }
+
+    target.removeEventListener("click", clickedSquare);
+    GameBoard.gameBoard[target.id] = currentSymbol;
+    checkWin();
   };
 
   const startGame = () => {
@@ -85,29 +168,9 @@ const GameBrain = (() => {
     //make squares in game-board react to user input
     gameBoardSquares = gameBoardDisplay.querySelectorAll("div");
     gameBoardSquares.forEach((square) =>
-      square.addEventListener("click", function clickedSquare(e) {
-        currentSymbol = whichPlayersTurn(p1, p2);
-        e.target.textContent = currentSymbol;
-
-        if (p1.getPlayStatus() === true) {
-          e.target.style.color = "#fb7185";
-          p1.changePlayStatus(false);
-          p2.changePlayStatus(true);
-
-          displayInfo.textContent = `Player ${p2.getSymbol()}'s turn`;
-          displayInfo.style.color = "#38bdf8";
-        } else {
-          e.target.style.color = "#38bdf8";
-          p1.changePlayStatus(true);
-          p2.changePlayStatus(false);
-
-          displayInfo.textContent = `Player ${p1.getSymbol()}'s turn`;
-          displayInfo.style.color = "#fb7185";
-        }
-
-        e.target.removeEventListener("click", clickedSquare);
-        GameBoard.gameBoard[e.target.id] = currentSymbol;
-        checkWin();
+      square.addEventListener("click", (e) => {
+        target = e.target;
+        clickedSquare(target, p1, p2);
       })
     );
   };
