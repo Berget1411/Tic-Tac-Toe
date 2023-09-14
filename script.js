@@ -50,19 +50,25 @@ const GameBrain = (() => {
 
   const checkWin = () => {
     const displayWinner = (player) => {
-      displayInfo.textContent = `Player ${player} won!`;
       replayButton.style.opacity = "1";
 
-      if ((player = "X")) {
-        displayInfo.style.color = "#fb7185";
-      } else {
-        displayInfo.style.color = "#38bdf8";
-      }
+      //remove eventlistener from squares
       gameBoardDisplay
         .querySelectorAll("div")
-        .forEach((square) =>
-          square.removeEventListener("click", clickedSquare)
-        );
+        .forEach((div) => div.replaceWith(div.cloneNode(true)));
+
+      if (player != "draw") {
+        displayInfo.textContent = `Player ${player} won!`;
+
+        if (player == "X") {
+          displayInfo.style.color = "#fb7185";
+        } else {
+          displayInfo.style.color = "#38bdf8";
+        }
+      } else {
+        displayInfo.textContent = `Draw!`;
+        displayInfo.style.color = "black";
+      }
     };
 
     for (i = 0; i < 9; i++) {
@@ -123,37 +129,11 @@ const GameBrain = (() => {
       ) {
         displayWinner(GameBoard.gameBoard[2]);
       } else if (GameBoard.gameBoard.includes("") == false) {
-        displayInfo.textContent = `Draw!`;
-        displayInfo.style.color = "black";
+        displayWinner("draw");
       } else {
         continue;
       }
     }
-  };
-
-  const clickedSquare = (target, p1, p2) => {
-    currentSymbol = whichPlayersTurn(p1, p2);
-    target.textContent = currentSymbol;
-
-    if (p1.getPlayStatus() === true) {
-      target.style.color = "#fb7185";
-      p1.changePlayStatus(false);
-      p2.changePlayStatus(true);
-
-      displayInfo.textContent = `Player ${p2.getSymbol()}'s turn`;
-      displayInfo.style.color = "#38bdf8";
-    } else {
-      target.style.color = "#38bdf8";
-      p1.changePlayStatus(true);
-      p2.changePlayStatus(false);
-
-      displayInfo.textContent = `Player ${p1.getSymbol()}'s turn`;
-      displayInfo.style.color = "#fb7185";
-    }
-
-    target.removeEventListener("click", clickedSquare);
-    GameBoard.gameBoard[target.id] = currentSymbol;
-    checkWin();
   };
 
   const startGame = () => {
@@ -168,9 +148,29 @@ const GameBrain = (() => {
     //make squares in game-board react to user input
     gameBoardSquares = gameBoardDisplay.querySelectorAll("div");
     gameBoardSquares.forEach((square) =>
-      square.addEventListener("click", (e) => {
-        target = e.target;
-        clickedSquare(target, p1, p2);
+      square.addEventListener("click", function clickedSquare(e) {
+        currentSymbol = whichPlayersTurn(p1, p2);
+        e.target.textContent = currentSymbol;
+
+        if (p1.getPlayStatus() === true) {
+          e.target.style.color = "#fb7185";
+          p1.changePlayStatus(false);
+          p2.changePlayStatus(true);
+
+          displayInfo.textContent = `Player ${p2.getSymbol()}'s turn`;
+          displayInfo.style.color = "#38bdf8";
+        } else {
+          e.target.style.color = "#38bdf8";
+          p1.changePlayStatus(true);
+          p2.changePlayStatus(false);
+
+          displayInfo.textContent = `Player ${p1.getSymbol()}'s turn`;
+          displayInfo.style.color = "#fb7185";
+        }
+
+        e.target.removeEventListener("click", clickedSquare);
+        GameBoard.gameBoard[e.target.id] = currentSymbol;
+        checkWin();
       })
     );
   };
