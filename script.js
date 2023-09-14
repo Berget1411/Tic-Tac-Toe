@@ -196,3 +196,5 @@ startGameButtons.forEach((button) =>
 );
 
 returnButton.addEventListener("click", changeScreen);
+
+replayButton.addEventListener("click", GameBrain.startGame);
