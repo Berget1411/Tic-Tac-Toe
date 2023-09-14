@@ -29,12 +29,15 @@ const displayController = (() => {
   const renderGameBoard = (gameBoard) => {
     //reset gameBoard
     gameBoardDisplay.textContent = "";
+    let squareNum = 0;
     for (const row of gameBoard) {
       for (const col of row) {
         square = document.createElement("div");
         square.classList.add("square");
+        square.setAttribute("id", `${squareNum}`);
         square.textContent = col;
         gameBoardDisplay.append(square);
+        squareNum++;
       }
     }
   };
@@ -47,6 +50,34 @@ const GameBrain = (() => {
       return p1.getSymbol();
     } else {
       return p2.getSymbol();
+    }
+  };
+
+  const checkWin = () => {
+    let xCounter = 0;
+    let oCounter = 0;
+
+    for (const row of GameBoard.gameBoard) {
+      for (const square of row) {
+        console.log(square.textContent);
+        if (square.textContent === "X") {
+          xCounter++;
+        } else if (square.textContent === "O") {
+          oCounter++;
+        } else {
+          continue;
+        }
+      }
+      if (xCounter === 3) {
+        console.log("X win");
+        break;
+      } else if (oCounter === 3) {
+        console.log("O win");
+        break;
+      } else {
+        xCounter = 0;
+        oCounter = 0;
+      }
     }
   };
 
@@ -63,7 +94,8 @@ const GameBrain = (() => {
     gameBoardSquares = gameBoardDisplay.querySelectorAll("div");
     gameBoardSquares.forEach((square) =>
       square.addEventListener("click", function clickedSquare(e) {
-        e.target.textContent = whichPlayersTurn(p1, p2);
+        currentSymbol = whichPlayersTurn(p1, p2);
+        e.target.textContent = currentSymbol;
 
         if (p1.getPlayStatus() === true) {
           e.target.style.color = "#fb7185";
@@ -82,6 +114,18 @@ const GameBrain = (() => {
         }
 
         e.target.removeEventListener("click", clickedSquare);
+
+        console.log(e.target.id);
+        if (e.target.id < 3) {
+          GameBoard.gameBoard[0][e.target.id] = currentSymbol;
+        } else if (e.target.id > 2 && e.target.id < 6) {
+          GameBoard.gameBoard[1][e.target.id - 3] = currentSymbol;
+        } else {
+          GameBoard.gameBoard[2][e.target.id - 6] = currentSymbol;
+        }
+        console.log(GameBoard.gameBoard);
+
+        checkWin();
       })
     );
   };
