@@ -3,6 +3,7 @@ const gameScreen = document.querySelector(".game-screen");
 const gameBoardDisplay = document.querySelector(".game-board");
 const startGameButtons = document.querySelectorAll(".game-mode button");
 const returnButton = document.querySelector(".return");
+const displayInfo = document.querySelector(".game-screen h2");
 
 const GameBoard = (() => {
   const gameBoard = [
@@ -65,9 +66,11 @@ const GameBrain = (() => {
         e.target.textContent = whichPlayersTurn(p1, p2);
 
         if (p1.getPlayStatus() === true) {
+          e.target.style.color = "#fb7185";
           p1.changePlayStatus(false);
           p2.changePlayStatus(true);
         } else {
+          e.target.style.color = "#38bdf8";
           p1.changePlayStatus(true);
           p2.changePlayStatus(false);
         }
