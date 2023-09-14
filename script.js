@@ -40,6 +40,12 @@ const displayController = (() => {
 })();
 
 const GameBrain = (() => {
+  const resetGame = () => {
+    GameBoard.gameBoard = ["", "", "", "", "", "", "", "", ""];
+    gameBoardDisplay.textContent = "";
+    displayInfo.textContent = "Player X's turn";
+    displayInfo.style.color = "#fb7185";
+  };
   const whichPlayersTurn = (p1, p2) => {
     if (p1.getPlayStatus() === true) {
       return p1.getSymbol();
@@ -134,13 +140,14 @@ const GameBrain = (() => {
         continue;
       }
     }
+    return {};
   };
 
   const startGame = () => {
-    changeScreen();
     // generate players
     let p1 = Player("X", true);
     let p2 = Player("O", false);
+    resetGame();
 
     //render gameboard
     displayController.renderGameBoard(GameBoard.gameBoard);
@@ -178,12 +185,14 @@ const GameBrain = (() => {
   return { whichPlayersTurn, startGame };
 })();
 
-startGameButtons.forEach((button) =>
-  button.addEventListener("click", GameBrain.startGame)
-);
-
 const changeScreen = () => {
   startScreen.classList.toggle("off");
   gameScreen.classList.toggle("off");
+  GameBrain.startGame();
 };
+
+startGameButtons.forEach((button) =>
+  button.addEventListener("click", changeScreen)
+);
+
 returnButton.addEventListener("click", changeScreen);
